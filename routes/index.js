@@ -15,21 +15,46 @@ module.exports = function(){
 
     router.get('/nuevo-proyecto', proyectosController.formularioProyecto);
 
+
+
     //se usa el comodin :url. LISTAR EL PROYECTO
     router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
+
+    //POST
+    router.post('/nuevo-proyecto',
+        body('nombre').not().isEmpty().trim().escape(),
+        proyectosController.nuevoProyectoPost);
+
+
 
     //Actualizar el proyecto
     router.get('/proyecto/editar/:id', proyectosController.formularioEditar);
 
     //POST
-    router.post('/nuevo-proyecto',
+    router.post('/nuevo-proyecto/:id',
         body('nombre').not().isEmpty().trim().escape(),
-        proyectosController.nuevoProyecto);
-
+        proyectosController.editarProyectoPost);
 
 
 
     return router;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

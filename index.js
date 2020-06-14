@@ -21,7 +21,7 @@ db.sync()
 const app = express();
 
 //Donde cargar los archivos estaticos css - imgs
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 //Habilitar Body parser para leer datos del formulario
 app.use(bodyParser.urlencoded({extended: true}));
