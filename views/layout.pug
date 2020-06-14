@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css')
+        link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.13.0/css/all.css' integrity='sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V' crossorigin='anonymous')
+        link(rel="stylesheet", href="../css/normalize.css")
+        link(rel="stylesheet", href="../css/app.css")
+        title #{nombrePagina}
+
+    body
+        header.barra
+            h1 UpTask - Administrador de Proyectos
+            a(href) Cerrar Sesión
+
+        main.contenedor
+            aside.contenedor-proyectos
+                .panel.crear-proyecto
+                    a(href="/nuevo-proyecto" class="boton") Nuevo Proyecto
+                        span +
+
+                .panel.lista-proyectos
+                    h2 Proyectos
+                    ul#proyectos.proyectos
+                        if(proyectos.length)
+                            each proyecto in proyectos
+                                li
+                                    a(href=`/proyectos/${proyecto.url}`) #{proyecto.nombre}
+
+
+            block contenido
+
+
+
+
