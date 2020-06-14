@@ -1,6 +1,7 @@
 const Proyectos = require('../models/Proyectos');
 
 
+
 //PAGINA DE INICIO
 exports.proyectosHome = async (req, res) => {
     const proyectos = await Proyectos.findAll();
@@ -11,6 +12,7 @@ exports.proyectosHome = async (req, res) => {
 };
 
 
+
 //PAGINA PARA CREAR NUEVO PROYECTO
 exports.formularioProyecto = async (req, res) => {
     const proyectos = await Proyectos.findAll();
@@ -19,6 +21,8 @@ exports.formularioProyecto = async (req, res) => {
         proyectos
     });
 };
+
+
 
 
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
@@ -52,6 +56,9 @@ exports.nuevoProyecto = async (req, res) => {
 };
 
 
+
+
+
 //PARA ABRIR EL PROYECTO CON UNA RUTA ESPECIFICA CREADA
 exports.proyectoPorUrl = async (req, res, next) => {
     const proyectos = await Proyectos.findAll();
@@ -70,6 +77,8 @@ exports.proyectoPorUrl = async (req, res, next) => {
         proyectos
     })
 };
+
+
 
 
 //PARA EDITAR EL FORMULARIO
