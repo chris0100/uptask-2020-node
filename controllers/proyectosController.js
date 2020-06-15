@@ -1,7 +1,6 @@
 const Proyectos = require('../models/Proyectos');
 
 
-
 //PAGINA DE INICIO
 exports.proyectosHome = async (req, res) => {
     const proyectos = await Proyectos.findAll();
@@ -10,7 +9,6 @@ exports.proyectosHome = async (req, res) => {
         proyectos
     });
 };
-
 
 
 //PAGINA PARA CREAR NUEVO PROYECTO
@@ -23,8 +21,6 @@ exports.formularioProyecto = async (req, res) => {
 };
 
 
-
-
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.nuevoProyectoPost = async (req, res) => {
 
@@ -32,6 +28,8 @@ exports.nuevoProyectoPost = async (req, res) => {
 
     //validar que se tengan datos en el input
     const {nombre} = req.body;
+    console.log(req.body);
+    console.log('impresion del nombre crear' + req.body.nombre);
 
     let errores = [];
     if (!nombre) {
@@ -50,13 +48,11 @@ exports.nuevoProyectoPost = async (req, res) => {
     // Si no hay errores
     else {
         await Proyectos.create({nombre});
+        console.log('realiza CREAR');
         res.redirect('/');
     }
 
 };
-
-
-
 
 
 //PARA ABRIR EL PROYECTO CON UNA RUTA ESPECIFICA CREADA
@@ -65,11 +61,12 @@ exports.proyectoPorUrl = async (req, res, next) => {
     const proyectosPromise = Proyectos.findAll();
 
     const proyectoPromise = Proyectos.findOne({
-        where:{
+        where: {
             url: req.params.url
-        }});
+        }
+    });
 
-    const[proyectos,proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+    const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
 
     //si la consulta no devuelve nada al objeto, se muestra error para cargar pagina
     if (!proyecto) return next();
@@ -82,18 +79,17 @@ exports.proyectoPorUrl = async (req, res, next) => {
 };
 
 
-
-
 //PARA EDITAR EL FORMULARIO
 exports.formularioEditar = async (req, res) => {
     const proyectosPromise = Proyectos.findAll();
 
     const proyectoPromise = Proyectos.findOne({
-        where:{
+        where: {
             id: req.params.id
-    }});
+        }
+    });
 
-    const[proyectos,proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+    const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
 
     //RENDER A LA VISTA
     res.render('nuevoProyecto', {
@@ -104,9 +100,6 @@ exports.formularioEditar = async (req, res) => {
 };
 
 
-
-
-
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.editarProyectoPost = async (req, res) => {
 
@@ -114,6 +107,8 @@ exports.editarProyectoPost = async (req, res) => {
 
     //validar que se tengan datos en el input
     const {nombre} = req.body;
+    console.log(req.body);
+    console.log('impresion del nombre' + req.body.nombre);
 
     let errores = [];
     if (!nombre) {
@@ -134,9 +129,32 @@ exports.editarProyectoPost = async (req, res) => {
         await Proyectos.update(
             {nombre: nombre},
             {where: {id: req.params.id}}
-            );
+        );
+        console.log('realizar update');
         res.redirect('/');
     }
+
+};
+
+
+//ELIMINAR EL PROYECTO
+exports.eliminarProyecto = async (req, res, next) => {
+    const {urlProyecto} = req.query;
+    console.log('Esta es la url: ' + urlProyecto);
+
+    const resultado = await Proyectos.destroy({
+        where: {
+            url: urlProyecto
+        }
+    });
+
+    //si en ese momento llega a ocurrir un error de conexion
+    if(!resultado){
+        return next();
+    }
+
+    res.status(200).send('Proyecto Eliminado Correctamente');
+
 
 };
 

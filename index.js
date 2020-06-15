@@ -11,6 +11,7 @@ const db = require('./config/db');
 
 //Importar el modelo
 require('./models/Proyectos');
+require('./models/Tareas');
 
 //sincronizar la bd para insertar datos
 db.sync()
@@ -21,7 +22,7 @@ db.sync()
 const app = express();
 
 //Donde cargar los archivos estaticos css - imgs
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 //Habilitar Body parser para leer datos del formulario
 app.use(bodyParser.urlencoded({extended: true}));
