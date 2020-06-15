@@ -1,4 +1,5 @@
 const Proyectos = require('../models/Proyectos');
+const Tareas = require('../models/Tareas');
 
 
 //PAGINA DE INICIO
@@ -11,6 +12,7 @@ exports.proyectosHome = async (req, res) => {
 };
 
 
+
 //PAGINA PARA CREAR NUEVO PROYECTO
 exports.formularioProyecto = async (req, res) => {
     const proyectos = await Proyectos.findAll();
@@ -19,6 +21,7 @@ exports.formularioProyecto = async (req, res) => {
         proyectos
     });
 };
+
 
 
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
@@ -51,12 +54,15 @@ exports.nuevoProyectoPost = async (req, res) => {
         console.log('realiza CREAR');
         res.redirect('/');
     }
-
 };
+
+
+
 
 
 //PARA ABRIR EL PROYECTO CON UNA RUTA ESPECIFICA CREADA
 exports.proyectoPorUrl = async (req, res, next) => {
+
     //se usan como dos promesas ya que usar dos await no es conveniente por las esperas
     const proyectosPromise = Proyectos.findAll();
 
@@ -66,7 +72,20 @@ exports.proyectoPorUrl = async (req, res, next) => {
         }
     });
 
+
     const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+
+    //Consultar tareas del proyecto actual
+    const tareas = await Tareas.findAll({
+        where: {
+            proyectoId : proyecto.id
+        },
+        include: [
+            { model: Proyectos }
+        ]
+    });
+
+
 
     //si la consulta no devuelve nada al objeto, se muestra error para cargar pagina
     if (!proyecto) return next();
@@ -74,9 +93,13 @@ exports.proyectoPorUrl = async (req, res, next) => {
     res.render('tareas', {
         nombrePagina: 'Tareas del proyecto',
         proyecto,
-        proyectos
+        proyectos,
+        tareas
     })
 };
+
+
+
 
 
 //PARA EDITAR EL FORMULARIO
@@ -98,6 +121,7 @@ exports.formularioEditar = async (req, res) => {
         proyecto
     });
 };
+
 
 
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
@@ -137,6 +161,7 @@ exports.editarProyectoPost = async (req, res) => {
 };
 
 
+
 //ELIMINAR EL PROYECTO
 exports.eliminarProyecto = async (req, res, next) => {
     const {urlProyecto} = req.query;
@@ -154,8 +179,6 @@ exports.eliminarProyecto = async (req, res, next) => {
     }
 
     res.status(200).send('Proyecto Eliminado Correctamente');
-
-
 };
 
 
