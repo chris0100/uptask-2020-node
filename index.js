@@ -18,16 +18,20 @@ db.sync()
     .then( () => console.log('conectado a la BD'))
     .catch(error => console.log(error));
 
+
+
+////////////////////////////////////////////////////
 // crear una aplicacion de express
+////////////////////////////////////////////////////
 const app = express();
 
-//Donde cargar los archivos estaticos css - imgs
+//Cargar los archivos estaticos css - img de la carpeta public
 app.use(express.static('public'));
 
 //Habilitar Body parser para leer datos del formulario
 app.use(bodyParser.urlencoded({extended: true}));
 
-//habilitar pug
+//habilitar pug para plantillas
 app.set('view engine', 'pug');
 
 //añadir la carpeta de las vistas

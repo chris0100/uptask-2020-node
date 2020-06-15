@@ -11,7 +11,7 @@ const Tareas = db.define('tareas', {
     tarea: Sequelize.STRING(100),
     estado : Sequelize.INTEGER
 });
-Tareas.belongsTo(Proyectos); //una tarea pertenece a un proyecto
+Tareas.belongsTo(Proyectos); //una tarea pertenece a un proyecto  FK
 //proyecto has many (tareas)  -> un proyecto tiene muchas tareas
 
 

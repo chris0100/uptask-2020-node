@@ -14,9 +14,10 @@ module.exports = function(){
     //GET PARA HOME
     router.get('/', proyectosController.proyectosHome);
 
+    //GET PARA MOSTRAR FORMULARIO DE PROYECTO
     router.get('/nuevo-proyecto', proyectosController.formularioProyecto);
 
-    //POST
+    //POST PARA ENVIAR DATOS DE FORMULARIO DE PROYECTO
     router.post('/nuevo-proyecto',
         body('nombre').not().isEmpty().trim().escape(),
         proyectosController.nuevoProyectoPost);
@@ -26,10 +27,10 @@ module.exports = function(){
     router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
 
 
-    //Actualizar el proyecto
-    router.get('/proyecto/editar/:id', proyectosController.formularioEditar);
+    //Muestra el formulario para editar el nombre del proyecto
+    router.get('/proyecto/editar/:id', proyectosController.formularioEditarProyecto);
 
-    //POST
+    //POST - envia los datos de nombre de proyecto editados
     router.post('/nuevo-proyecto/:id',
         body('nombre').not().isEmpty().trim().escape(),
         proyectosController.editarProyectoPost);
@@ -41,9 +42,16 @@ module.exports = function(){
 
     //////////////////////////////////////////////////
     ///TAREAS
+    //////////////////////////////////////////////////
+
+    //POST para crear una tarea
     router.post('/proyectos/:url', tareasController.agregarTarea);
 
+    //Actualizar estado de tarea
+    router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
 
+    //Eliminar tarea
+    router.delete('/tareas/:id', tareasController.eliminarTarea);
 
     return router;
 };

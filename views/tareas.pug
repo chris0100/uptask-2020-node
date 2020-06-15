@@ -4,6 +4,17 @@ block contenido
     .contenido-principal
         h1 #{nombrePagina} - #{proyecto.nombre}
 
+        //ACCIONES QUE SE PUEDEN REALIZAR SOBRE EL PROYECTO
+        .contenedor-acciones.my-5
+            a(href=`/proyecto/editar/${proyecto.id}` class="boton") Editar Proyecto
+            button#eliminar-proyecto(data-proyecto-url-base=proyecto.url type="button" class="boton eliminar") Eliminar Proyecto
+
+        //Avance del proyecto
+        .avance.my-5
+            h2 Avance del Proyecto
+            #barra-avance.barra-avance
+                #porcentaje.porcentaje
+
         //TODO - FORMULARIO
         form.agregar-tarea(action=`/proyectos/${proyecto.url}` method="POST")
             .campo
@@ -16,7 +27,7 @@ block contenido
             ul
                 if tareas.length
                     each tarea in tareas
-                        li.tarea
+                        li.tarea(data-tarea-id=tarea.id)
                             p= tarea.tarea
                             .acciones
                                 if tarea.estado
@@ -33,9 +44,6 @@ block contenido
 
 
 
-        //ACCIONES QUE SE PUEDEN REALIZAR
-        .contenedor-acciones
-            a(href=`/proyecto/editar/${proyecto.id}` class="boton") Editar Proyecto
-            button#eliminar-proyecto(data-proyecto-url=proyecto.url type="button" class="boton eliminar") Eliminar Proyecto
+
 
 

@@ -3,9 +3,11 @@ import Axios from "axios";
 
 const btnEliminar = document.querySelector('#eliminar-proyecto');
 
+
 if (btnEliminar) {
     btnEliminar.addEventListener('click', e => {
-        const urlProyecto = e.target.dataset.proyectoUrl;
+        console.log(e.target.dataset);
+        const urlProyecto = e.target.dataset.proyectoUrlBase;
 
 
         Swal.fire({

@@ -12,7 +12,6 @@ exports.proyectosHome = async (req, res) => {
 };
 
 
-
 //PAGINA PARA CREAR NUEVO PROYECTO
 exports.formularioProyecto = async (req, res) => {
     const proyectos = await Proyectos.findAll();
@@ -23,16 +22,13 @@ exports.formularioProyecto = async (req, res) => {
 };
 
 
-
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.nuevoProyectoPost = async (req, res) => {
 
     const proyectos = await Proyectos.findAll();
 
     //validar que se tengan datos en el input
-    const {nombre} = req.body;
-    console.log(req.body);
-    console.log('impresion del nombre crear' + req.body.nombre);
+    const nombre = req.body.nombre;   //o tambien const{nombre} = req.body
 
     let errores = [];
     if (!nombre) {
@@ -50,17 +46,14 @@ exports.nuevoProyectoPost = async (req, res) => {
 
     // Si no hay errores
     else {
-        await Proyectos.create({nombre});
-        console.log('realiza CREAR');
+        await Proyectos.create({nombre}); //guarda en la base de datos
+        console.log('realiza CREAR EN LA BD');
         res.redirect('/');
     }
 };
 
 
-
-
-
-//PARA ABRIR EL PROYECTO CON UNA RUTA ESPECIFICA CREADA
+//PARA ABRIR EL PROYECTO CON UNA RUTA URL ASIGNADA EN SU CREACION
 exports.proyectoPorUrl = async (req, res, next) => {
 
     //se usan como dos promesas ya que usar dos await no es conveniente por las esperas
@@ -68,23 +61,23 @@ exports.proyectoPorUrl = async (req, res, next) => {
 
     const proyectoPromise = Proyectos.findOne({
         where: {
-            url: req.params.url
+            url: req.params.url  //revisa en el request, el parametro de url
         }
     });
 
 
     const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
 
+
     //Consultar tareas del proyecto actual
     const tareas = await Tareas.findAll({
         where: {
-            proyectoId : proyecto.id
+            proyectoId: proyecto.id
         },
         include: [
-            { model: Proyectos }
+            {model: Proyectos}
         ]
     });
-
 
 
     //si la consulta no devuelve nada al objeto, se muestra error para cargar pagina
@@ -99,16 +92,13 @@ exports.proyectoPorUrl = async (req, res, next) => {
 };
 
 
-
-
-
-//PARA EDITAR EL FORMULARIO
-exports.formularioEditar = async (req, res) => {
+//PARA EDITAR EL PROYECTO A TRAVES DE UN FORMULARIO
+exports.formularioEditarProyecto = async (req, res) => {
     const proyectosPromise = Proyectos.findAll();
 
     const proyectoPromise = Proyectos.findOne({
         where: {
-            id: req.params.id
+            id: req.params.id //toma la ruta enviada desde el link para editar
         }
     });
 
@@ -123,7 +113,6 @@ exports.formularioEditar = async (req, res) => {
 };
 
 
-
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.editarProyectoPost = async (req, res) => {
 
@@ -131,8 +120,6 @@ exports.editarProyectoPost = async (req, res) => {
 
     //validar que se tengan datos en el input
     const {nombre} = req.body;
-    console.log(req.body);
-    console.log('impresion del nombre' + req.body.nombre);
 
     let errores = [];
     if (!nombre) {
@@ -152,7 +139,11 @@ exports.editarProyectoPost = async (req, res) => {
     else {
         await Proyectos.update(
             {nombre: nombre},
-            {where: {id: req.params.id}}
+            {
+                where: {
+                    id : req.params.id  //toma el parametro id de la ruta desde el form para hacer submit
+                }
+            }
         );
         console.log('realizar update');
         res.redirect('/');
@@ -161,20 +152,22 @@ exports.editarProyectoPost = async (req, res) => {
 };
 
 
-
 //ELIMINAR EL PROYECTO
 exports.eliminarProyecto = async (req, res, next) => {
-    const {urlProyecto} = req.query;
-    console.log('Esta es la url: ' + urlProyecto);
+    const {urlProyecto} = req.query; //por req.params.url tambien generaba el link necesario
 
-    const resultado = await Proyectos.destroy({
+    console.log(req.query);
+    console.log('Esta es la url: ' + urlProyecto);
+    console.log('este es por params: ' + req.params.url);
+
+    const resultado = await Proyectos.destroy({   //eliminar proyecto de la base de datos
         where: {
             url: urlProyecto
         }
     });
 
     //si en ese momento llega a ocurrir un error de conexion
-    if(!resultado){
+    if (!resultado) {
         return next();
     }
 
