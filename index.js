@@ -64,6 +64,7 @@ app.use(passport.session());
 
 //pasar varDom al middleware para que con next se ejecute el siguiente.
 app.use((req, res, next) => {
+    res.locals.usuario = {...req.user} || null;
     res.locals.year = 2020;
     res.locals.vardump = helpers.vardump;
     res.locals.mensajes = req.flash();

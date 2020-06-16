@@ -44,3 +44,9 @@ exports.iniciarSesion = (req, res) =>{
 
 
 
+//FORMULARIO REESTABLECER PASSWORD
+exports.formReestablecerPassword = (req, res) => {
+    res.render('reestablecer', {
+        nombrePagina: 'Reestablecer tu contraseña'
+    })
+};

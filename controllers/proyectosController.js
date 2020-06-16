@@ -4,7 +4,15 @@ const Tareas = require('../models/Tareas');
 
 //PAGINA DE INICIO
 exports.proyectosHome = async (req, res) => {
-    const proyectos = await Proyectos.findAll();
+    //console.log(res.locals.usuario);
+
+    const UsuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
+
     res.render('index', {
         nombrePagina: 'Proyectos',
         proyectos
@@ -12,9 +20,20 @@ exports.proyectosHome = async (req, res) => {
 };
 
 
+
+
+
+
+
 //PAGINA PARA CREAR NUEVO PROYECTO
 exports.formularioProyecto = async (req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const UsuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
+
     res.render('nuevoProyecto', {
         nombrePagina: 'Nuevo Proyecto',
         proyectos
@@ -22,10 +41,20 @@ exports.formularioProyecto = async (req, res) => {
 };
 
 
+
+
+
+
+
+
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.nuevoProyectoPost = async (req, res) => {
-
-    const proyectos = await Proyectos.findAll();
+    const UsuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
 
     //validar que se tengan datos en el input
     const nombre = req.body.nombre;   //o tambien const{nombre} = req.body
@@ -46,18 +75,29 @@ exports.nuevoProyectoPost = async (req, res) => {
 
     // Si no hay errores
     else {
-        await Proyectos.create({nombre}); //guarda en la base de datos
+        const UsuarioId = res.locals.usuario.id;
+        await Proyectos.create({nombre, UsuarioId}); //guarda en la base de datos
         console.log('realiza CREAR EN LA BD');
         res.redirect('/');
     }
 };
 
 
+
+
+
+
+
 //PARA ABRIR EL PROYECTO CON UNA RUTA URL ASIGNADA EN SU CREACION
 exports.proyectoPorUrl = async (req, res, next) => {
 
     //se usan como dos promesas ya que usar dos await no es conveniente por las esperas
-    const proyectosPromise = Proyectos.findAll();
+    const UsuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
 
     const proyectoPromise = Proyectos.findOne({
         where: {
@@ -65,9 +105,7 @@ exports.proyectoPorUrl = async (req, res, next) => {
         }
     });
 
-
     const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
-
 
     //Consultar tareas del proyecto actual
     const tareas = await Tareas.findAll({
@@ -78,7 +116,6 @@ exports.proyectoPorUrl = async (req, res, next) => {
             {model: Proyectos}
         ]
     });
-
 
     //si la consulta no devuelve nada al objeto, se muestra error para cargar pagina
     if (!proyecto) return next();
@@ -92,9 +129,19 @@ exports.proyectoPorUrl = async (req, res, next) => {
 };
 
 
+
+
+
+
+
 //PARA EDITAR EL PROYECTO A TRAVES DE UN FORMULARIO
 exports.formularioEditarProyecto = async (req, res) => {
-    const proyectosPromise = Proyectos.findAll();
+    const UsuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
 
     const proyectoPromise = Proyectos.findOne({
         where: {
@@ -113,10 +160,18 @@ exports.formularioEditarProyecto = async (req, res) => {
 };
 
 
+
+
+
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
 exports.editarProyectoPost = async (req, res) => {
 
-    const proyectos = await Proyectos.findAll();
+    const UsuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
+        where: {
+            UsuarioId
+        }
+    });
 
     //validar que se tengan datos en el input
     const {nombre} = req.body;
@@ -148,8 +203,11 @@ exports.editarProyectoPost = async (req, res) => {
         console.log('realizar update');
         res.redirect('/');
     }
-
 };
+
+
+
+
 
 
 //ELIMINAR EL PROYECTO

@@ -24,7 +24,7 @@ exports.usuarioAutenticado = (req, res, next) => {
 
 //FUNCION PARA CERRAR SESION
 exports.cerrarSesion = (req,res) => {
-    console.log(req.session.passport.user.email);  //asi puede verse el usario que esta logueado actualmente.
+    console.log(req.session.passport.user.id);  //asi puede verse el usario que esta logueado actualmente.
     req.session.destroy(() => {
         res.redirect('/iniciar-sesion'); //redirecciona al cerrar sesion
     })
