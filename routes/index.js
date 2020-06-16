@@ -101,9 +101,16 @@ module.exports = function(){
     //restablecer contraseña GET
     router.get('/reestablecer', usuariosController.formReestablecerPassword);
 
+    //reestablecer contraseña POST
+    router.post('/reestablecer', authControler.enviarToken);
 
+    //envia a la pagina generada por token
+    router.get('/reestablecer/:token', authControler.validarToken);
 
+    //envia la nueva contraseña en post, de acuerdo al token incrustado en url
+    router.post('/reestablecer/:token', authControler.actualizarPassword);
 
+    router.get('/confirm/:email', usuariosController.confirmarCuenta);
 
 
     return router;

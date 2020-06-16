@@ -77,6 +77,10 @@ app.use('/', routes());
 //prepara el puerto de conexion
 app.listen(3000);
 
+//llamada del correo
+require('./handlers/email');
+
+
 
 
 

@@ -34,7 +34,13 @@ const Usuarios = db.define('Usuarios', {
                 msg: 'El password no puede estar vacio'
             }
         }
-    }
+    },
+    activo: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+    },
+    token: Sequelize.STRING,
+    expiracionToken: Sequelize.DATE
 
 }, {
     hooks: {   //corre un poco antes de insertarse en la base de datos

@@ -1,8 +1,9 @@
 const Proyectos = require('../models/Proyectos');
 const Tareas = require('../models/Tareas');
 
-
+//////////////////////////////////////////
 //PAGINA DE INICIO
+//////////////////////////////////////////
 exports.proyectosHome = async (req, res) => {
     //console.log(res.locals.usuario);
 
@@ -24,8 +25,9 @@ exports.proyectosHome = async (req, res) => {
 
 
 
-
+//////////////////////////////////////////
 //PAGINA PARA CREAR NUEVO PROYECTO
+/////////////////////////////////////////
 exports.formularioProyecto = async (req, res) => {
     const UsuarioId = res.locals.usuario.id;
     const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
@@ -46,8 +48,9 @@ exports.formularioProyecto = async (req, res) => {
 
 
 
-
+//////////////////////////////////////////
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
+//////////////////////////////////////////
 exports.nuevoProyectoPost = async (req, res) => {
     const UsuarioId = res.locals.usuario.id;
     const proyectos = await Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
@@ -87,8 +90,9 @@ exports.nuevoProyectoPost = async (req, res) => {
 
 
 
-
+//////////////////////////////////////////
 //PARA ABRIR EL PROYECTO CON UNA RUTA URL ASIGNADA EN SU CREACION
+//////////////////////////////////////////
 exports.proyectoPorUrl = async (req, res, next) => {
 
     //se usan como dos promesas ya que usar dos await no es conveniente por las esperas
@@ -133,8 +137,9 @@ exports.proyectoPorUrl = async (req, res, next) => {
 
 
 
-
+//////////////////////////////////////////
 //PARA EDITAR EL PROYECTO A TRAVES DE UN FORMULARIO
+//////////////////////////////////////////
 exports.formularioEditarProyecto = async (req, res) => {
     const UsuarioId = res.locals.usuario.id;
     const proyectosPromise = Proyectos.findAll({ //muestra todos los proyectos del id seleccionado
@@ -162,8 +167,9 @@ exports.formularioEditarProyecto = async (req, res) => {
 
 
 
-
+//////////////////////////////////////////
 //ENVIA FORMULARIO PARA CREAR NUEVO PROYECTO - POST
+//////////////////////////////////////////
 exports.editarProyectoPost = async (req, res) => {
 
     const UsuarioId = res.locals.usuario.id;
@@ -209,8 +215,9 @@ exports.editarProyectoPost = async (req, res) => {
 
 
 
-
+//////////////////////////////////////////
 //ELIMINAR EL PROYECTO
+//////////////////////////////////////////
 exports.eliminarProyecto = async (req, res, next) => {
     const {urlProyecto} = req.query; //por req.params.url tambien generaba el link necesario
 
