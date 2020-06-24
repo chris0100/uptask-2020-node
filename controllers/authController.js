@@ -65,7 +65,7 @@ exports.enviarToken = async (req, res) => {
         usuario.token = crypto.randomBytes(20).toString('hex');
         usuario.expiracionToken = Date.now() + 3600000;
 
-        const resultado = await usuario.save();
+        await usuario.save();
 
         //url de reseteo
         const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`;
@@ -97,7 +97,7 @@ exports.validarToken = async (req, res) => {
         }
     );
 
-    //sino encuentra al ususario
+    //sino encuentra al usuario
     if (!usuario){
         req.flash('error', 'No Valido');
         res.redirect('/reestablecer');

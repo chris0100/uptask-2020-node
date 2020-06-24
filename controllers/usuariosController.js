@@ -21,7 +21,7 @@ exports.crearUsuarioPost = async (req, res) => {
 
     try{
         await Usuarios.create({email,password});
-        //Crear URL de confirmar
+        //Crear URL de confirmacion
         const confirmUrl = `http://${req.headers.host}/confirm/${email}`;
 
         //Crear el objeto de usuario
@@ -44,6 +44,7 @@ exports.crearUsuarioPost = async (req, res) => {
     catch (error) {
         req.flash('error',error.errors.map(error => error.message));  //se generan los errores para flash message
 
+        //lo mantiene en inicio-sesion con los datos ingresados hasta el momento
         res.render('crearUsuario',{
             mensajes: req.flash(),
             nombrePagina: 'Crear cuenta en Uptask',

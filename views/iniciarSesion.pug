@@ -6,13 +6,7 @@ html(lang="en")
         .contenedor-formulario
             h1 Inicia sesión en Uptask
 
-            //manejo de mensajes de error
-            if locals.mensajes
-                .alertas
-                    each categoria in Object.keys(locals.mensajes)
-                        each error in mensajes[categoria]
-                            .alerta(class=`${categoria}`)
-                                p= error
+            include partials/mensajes
 
             form#formulario.caja.caja-login(method="POST" action="/iniciar-sesion")
                 .campo
